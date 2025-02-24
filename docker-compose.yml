@@ -11,7 +11,7 @@ services:
     environment:
       - "BASE_URL=${PLANKA_BASE_URL}"
       - "SECRET_KEY=${PLANKA_SECRET_KEY}"
-      - DATABASE_URL=postgresql://postgres@postgres/planka
+      - DATABASE_URL=postgresql://postgres@planka_postgres/planka
 
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
@@ -85,11 +85,12 @@ services:
       # - TELEGRAM_CHAT_ID=
       # - TELEGRAM_THREAD_ID=
     depends_on:
-      postgres:
+      planka_postgres:
         condition: service_healthy
 
   postgres:
     image: postgres:16-alpine
+    container_name: planka_postgres
     restart: on-failure
     volumes:
       - planka-db-data:/var/lib/postgresql/data
